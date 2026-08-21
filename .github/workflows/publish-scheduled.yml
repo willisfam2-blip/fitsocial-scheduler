@@ -1,0 +1,17 @@
+name: Publish scheduled Instagram posts
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger scheduled publisher
+        run: |
+          set -e
+          response=$(curl --fail --silent --show-error --max-time 120 \
+            https://fitsocial-scheduler.vercel.app/api/cron/publish-scheduled)
+          echo "$response"
